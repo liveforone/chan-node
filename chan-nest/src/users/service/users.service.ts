@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { SignupDto } from '../dto/request/signup.dto';
 import { UpdatePwDto } from '../dto/request/update-password.dto';
 import { UsersEntity } from '../entities/users.entity';
@@ -7,23 +7,19 @@ import { UsersServiceLog } from '../log/users-service.log';
 import { encodePassword } from 'src/auth/util/password-encoder';
 import { validateUserPassword } from '../validator/users.validator';
 import { UsersCacheKey } from 'src/redis/key/users-cache.key';
-import { RedisClientType } from 'redis';
-import {
-  REDIS_CLIENT,
-  REDIS_GLOBAL_TTL,
-} from 'src/redis/constant/redis.constant';
-import { isExistInRedis } from 'src/redis/util/redis.util';
+import { REDIS_GLOBAL_TTL } from 'src/redis/constant/redis.constant';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { validateFoundData } from 'src/common/found-data.validator';
 import { Users } from '@prisma/client';
+import { UsersInfo } from '../dto/response/users-info.dto';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
   constructor(
-    @Inject(REDIS_CLIENT)
-    private readonly redis: RedisClientType,
+    private redisService: RedisService,
     private prisma: PrismaService,
   ) {}
 
@@ -67,12 +63,12 @@ export class UsersService {
       await tx.users.delete({ where: { id: id } });
     });
 
-    await this.redis.del(UsersCacheKey.USER_INFO + id);
-    await this.redis.del(UsersCacheKey.REFRESH_TOKEN + id);
+    await this.redisService.del(UsersCacheKey.USER_INFO + id);
+    await this.redisService.del(UsersCacheKey.REFRESH_TOKEN + id);
     this.logger.log(UsersServiceLog.WITHDRAW_SUCCESS + id);
   }
 
-  async getOneByUsername(username: string) {
+  async getOneByUsername(username: string): Promise<Users> {
     return await this.prisma.users
       .findUnique({
         where: { username: username },
@@ -94,22 +90,25 @@ export class UsersService {
       });
   }
 
-  async getOneDtoById(id: string): Promise<any> {
+  async getOneDtoById(id: string): Promise<UsersInfo> {
     const userInfoKey = UsersCacheKey.USER_INFO + id;
-    const cachedUserInfo = await this.redis.get(userInfoKey);
 
-    return isExistInRedis(cachedUserInfo)
-      ? JSON.parse(cachedUserInfo)
-      : await this.prisma.users
-          .findUnique({
-            select: { id: true, username: true, role: true },
-            where: { id: id },
-          })
-          .then(async (userInfo) => {
-            validateFoundData(userInfo);
-            await this.redis.set(userInfoKey, JSON.stringify(userInfo));
-            await this.redis.expire(userInfoKey, REDIS_GLOBAL_TTL);
-            return userInfo;
-          });
+    const findUsersInfoById = async () => {
+      return await this.prisma.users
+        .findUnique({
+          select: { id: true, username: true, role: true },
+          where: { id: id },
+        })
+        .then(async (userInfo) => {
+          validateFoundData(userInfo);
+          return userInfo;
+        });
+    };
+
+    return await this.redisService.getValueFromRedisOrDB<UsersInfo>(
+      userInfoKey,
+      findUsersInfoById,
+      REDIS_GLOBAL_TTL,
+    );
   }
 }

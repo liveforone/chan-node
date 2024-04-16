@@ -1,9 +1,4 @@
-import {
-  Inject,
-  Injectable,
-  Logger,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EnvPath } from '../../config/env-path.constant';
 import { UsersService } from '../../users/service/users.service';
@@ -12,22 +7,17 @@ import { AuthExcMsg } from 'src/exceptionHandle/exceptionMessage/auth-exception.
 import { AuthServiceLog } from '../log/auth-service.log';
 import { TokenInfo } from '../dto/response/token-info.dto';
 import { validateUserPassword } from 'src/users/validator/users.validator';
-import {
-  REDIS_CLIENT,
-  REDIS_REFRESH_TOKEN_TTL,
-} from 'src/redis/constant/redis.constant';
-import { isExistInRedis } from 'src/redis/util/redis.util';
+import { REDIS_REFRESH_TOKEN_TTL } from 'src/redis/constant/redis.constant';
 import { UsersCacheKey } from 'src/redis/key/users-cache.key';
-import { RedisClientType } from 'redis';
 import { JwtService } from '@nestjs/jwt';
+import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
 
   constructor(
-    @Inject(REDIS_CLIENT)
-    private redis: RedisClientType,
+    private redisService: RedisService,
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
@@ -46,8 +36,11 @@ export class AuthService {
     const refreshTokenKey = UsersCacheKey.REFRESH_TOKEN + id;
     const refreshToken = await this.generateRefreshToken().then(
       async (refreshToken) => {
-        await this.redis.set(refreshTokenKey, refreshToken);
-        await this.redis.expire(refreshTokenKey, REDIS_REFRESH_TOKEN_TTL);
+        await this.redisService.set(refreshTokenKey, refreshToken);
+        await this.redisService.expire(
+          refreshTokenKey,
+          REDIS_REFRESH_TOKEN_TTL,
+        );
         return refreshToken;
       },
     );
@@ -58,12 +51,9 @@ export class AuthService {
 
   async reissueJwtToken(id: string, refreshToken: string) {
     const refreshTokenKey = UsersCacheKey.REFRESH_TOKEN + id;
-    const foundRefreshToken = await this.redis.get(refreshTokenKey);
+    const foundRefreshToken = await this.redisService.get(refreshTokenKey);
 
-    if (
-      !isExistInRedis(foundRefreshToken) ||
-      foundRefreshToken != refreshToken
-    ) {
+    if (foundRefreshToken == null || foundRefreshToken != refreshToken) {
       throw new UnauthorizedException(AuthExcMsg.REFRESH_TOKEN_IS_NOT_MATCH);
     }
 
@@ -77,7 +67,7 @@ export class AuthService {
 
     const reissuedRefreshToken = await this.generateRefreshToken().then(
       async (reissuedRefreshToken) => {
-        await this.redis.set(refreshTokenKey, reissuedRefreshToken);
+        await this.redisService.set(refreshTokenKey, reissuedRefreshToken);
         return reissuedRefreshToken;
       },
     );
@@ -112,7 +102,7 @@ export class AuthService {
   }
 
   async logout(id: string) {
-    await this.redis.del(UsersCacheKey.REFRESH_TOKEN + id);
+    await this.redisService.del(UsersCacheKey.REFRESH_TOKEN + id);
     this.logger.log(AuthServiceLog.LOGOUT_SUCCESS + id);
   }
 }
