@@ -1,0 +1,58 @@
+## install
+
+### .env 수정
+
+- DB_URL
+- 시크릿 키 : `wsl openssl rand -hex 64`
+
+### ecosystem.config.js 수정
+
+- name을 docker container의 이름과 동일하게 한다.
+
+### users 도메인 수정
+
+- redis cache key
+- users.constant의 admin_email 수정
+
+## docker command
+
+- 이미지 빌드 : `docker build --tag 이름:1.0 .`
+- 이미지 확인 : `docker image ls`
+- 이미지 배포 : `docker push 계정/이미지`
+- 컨테이너 실행 : `docker run -p 8080:8080 -d 컨테이너이름`
+- pm2 list : `docker exec -it 컨테이너ID pm2 list`
+- pm2 kill : `docker exec -it {컨테이너이름} pm2 kill`
+- pm2 log : `docker exec -it {컨테이너이름} pm2 log 모듈에서 붙인 이름`
+
+## 복합키
+
+```prisma
+model User {
+  firstName String
+  lastName  String
+  email     String  @unique
+  isAdmin   Boolean @default(false)
+
+  @@id([firstName, lastName])
+}
+```
+
+## n + 1 문제 해결
+
+- fluent api 를 사용한다.
+- 스키마에 연관관계 설정이 되어있어야한다.
+- `findFirst`나 `findUnique`와 같은 단건 조회 api를 이용해야한다.
+
+```typescript
+//users를 기준으로 post를 가져온다.(one to many 관계에서 조회 -> n+1문제 발생)
+//fluent api를 통해서 n+1문제 해결
+const posts: Post[] = await prisma.user
+  .findUniuqe({ where: { id: '1' } })
+  .post(); //post는 users 스키마에 정의된 연관관계 post 이름
+```
+
+## 프로젝트 유지보수
+
+- `npx npm-check-updates -u -f "/nestjs*/"`
+- `npm i typescript@<version>`
+- `npm i reflect-metadata@<version>`

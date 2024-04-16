@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id String @id @default(uuid())
+  username String @unique
+  password String
+  role Role @default(MEMBER)
+  post Post[]
+}
+
+enum Role {
+  MEMBER
+  ADMIN
+}
+
+model Post {
+  id BigInt @default(autoincrement()) @id
+  title String
+  content String
+  post_state PostState @default(ORIGINAL)
+  writer_id String
+  created_date DateTime @default(now()) @db.Timestamptz(6)
+  writer Users @relation(fields: [writer_id], references: [id], onDelete: Cascade)
+}
+
+enum PostState {
+  ORIGINAL
+  EDITED
+}
