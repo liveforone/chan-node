@@ -4,5 +4,7 @@
 
 - 관리자 권한으로 터미널과 vscode를 열어야 폴더명을 변경할 수 있다.
 - `git clone https://github.com/liveforone/chan-node.git 패키지명`
+- `.git`삭제
 - `cd front/back`
 - `npm install`
+- `package.json`의 name, version, description을 변경한다.
