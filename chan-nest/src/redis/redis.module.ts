@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { RedisService } from './redis.service';
 import { REDIS_CLIENT } from './constant/redis.constant';
 import { createClient } from 'redis';
 
+@Global()
 @Module({
   providers: [
     {

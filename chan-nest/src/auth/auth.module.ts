@@ -7,7 +7,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EnvPath } from '../config/env-path.constant';
 import { JwtStratey } from './strategy/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
-import { RedisModule } from 'src/redis/redis.module';
 
 @Module({
   imports: [
@@ -24,7 +23,6 @@ import { RedisModule } from 'src/redis/redis.module';
       }),
       inject: [ConfigService],
     }),
-    RedisModule,
   ],
   providers: [AuthService, JwtStratey],
   controllers: [AuthController],
