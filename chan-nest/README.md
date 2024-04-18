@@ -1,3 +1,21 @@
+# chan nest - backend boilerplate
+
+- [chan nest - backend boilerplate](#chan-nest---backend-boilerplate)
+  - [문서](#문서)
+  - [file setting](#file-setting)
+    - [.env 수정](#env-수정)
+    - [ecosystem.config.js 수정](#ecosystemconfigjs-수정)
+    - [users 도메인 수정](#users-도메인-수정)
+  - [docker command](#docker-command)
+  - [복합키](#복합키)
+  - [n + 1 문제 해결](#n--1-문제-해결)
+  - [프로젝트 유지보수](#프로젝트-유지보수)
+
+## 문서
+
+- [Redis 사용 전략 및 컨벤션](./documents/REDIS_CONVENTION.md)
+- [response dto 주의사항](./documents/RESPONSE_DTO_CAUTION.md)
+
 ## file setting
 
 ### .env 수정
