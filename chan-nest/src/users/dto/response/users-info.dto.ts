@@ -5,3 +5,11 @@ export interface UsersInfo {
   readonly username: string;
   readonly role: $Enums.Role;
 }
+
+export const getUserInfoFields = () => {
+  return {
+    id: true,
+    username: true,
+    role: true,
+  };
+};

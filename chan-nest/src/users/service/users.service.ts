@@ -11,7 +11,7 @@ import { REDIS_GLOBAL_TTL } from 'src/redis/constant/redis.constant';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { validateFoundData } from 'src/common/found-data.validator';
 import { Users } from '@prisma/client';
-import { UsersInfo } from '../dto/response/users-info.dto';
+import { UsersInfo, getUserInfoFields } from '../dto/response/users-info.dto';
 import { RedisService } from 'src/redis/redis.service';
 
 @Injectable()
@@ -96,7 +96,7 @@ export class UsersService {
     const findUsersInfoById = async () => {
       return await this.prisma.users
         .findUnique({
-          select: { id: true, username: true, role: true },
+          select: getUserInfoFields(),
           where: { id: id },
         })
         .then(async (userInfo) => {
