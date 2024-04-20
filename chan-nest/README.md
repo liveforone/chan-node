@@ -15,6 +15,7 @@
 
 - [Redis 사용 전략 및 컨벤션](./documents/REDIS_CONVENTION.md)
 - [response dto 주의사항](./documents/RESPONSE_DTO_CAUTION.md)
+- [효율적으로 response dto 사용하기](./documents/EFFECTIVE_RESPONSE_DTO.md)
 
 ## file setting
 
