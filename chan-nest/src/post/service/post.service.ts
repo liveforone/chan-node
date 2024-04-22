@@ -14,7 +14,7 @@ import { PostSummary } from '../dto/response/post-summary.dto';
 import { PostQueryConstant } from './constant/post-query.constant';
 import { PostInfo } from '../dto/response/post-info.dto';
 import { PostPageDto } from '../dto/response/post-page.dto';
-import { RedisService } from 'src/redis/redis.service';
+import { RedisService } from 'src/redis/service/redis.service';
 
 @Injectable()
 export class PostService {

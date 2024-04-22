@@ -12,7 +12,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { validateFoundData } from 'src/common/found-data.validator';
 import { Users } from '@prisma/client';
 import { UsersInfo, getUserInfoFields } from '../dto/response/users-info.dto';
-import { RedisService } from 'src/redis/redis.service';
+import { RedisService } from 'src/redis/service/redis.service';
 
 @Injectable()
 export class UsersService {

@@ -10,7 +10,7 @@ import { validateUserPassword } from 'src/users/validator/users.validator';
 import { REDIS_REFRESH_TOKEN_TTL } from 'src/redis/constant/redis.constant';
 import { UsersCacheKey } from 'src/redis/key/users-cache.key';
 import { JwtService } from '@nestjs/jwt';
-import { RedisService } from 'src/redis/redis.service';
+import { RedisService } from 'src/redis/service/redis.service';
 
 @Injectable()
 export class AuthService {
