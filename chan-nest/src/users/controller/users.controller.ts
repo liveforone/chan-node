@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Param,
   Delete,
   Request,
   Patch,
@@ -15,7 +14,6 @@ import { UsersUrl } from './constant/users-url.constant';
 import { UsersResponse } from './response/users.response';
 import { UpdatePwDto } from '../dto/request/update-password.dto';
 import { WithdrawDto } from '../dto/request/withdraw.dto';
-import { UsersControllerConstant } from './constant/users-controller.constant';
 
 @Controller(UsersUrl.ROOT)
 export class UsersController {
@@ -39,14 +37,6 @@ export class UsersController {
     const id = req.user.userId;
     await this.usersService.withdraw(withdrawDto, id);
     return UsersResponse.WITHDRAW_SUCCESS;
-  }
-
-  //front에서 사용자 정보 필요시 요청하는 api, 클라이언트가 호출하는 api가 아니다
-  @Public()
-  @Get(UsersUrl.USER_INFO)
-  async getUserInfo(@Param(UsersControllerConstant.ID) id: string) {
-    const userInfo = await this.usersService.getOneDtoById(id);
-    return userInfo;
   }
 
   @Get(UsersUrl.PROFILE)
