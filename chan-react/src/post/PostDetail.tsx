@@ -136,7 +136,7 @@ const PostDetail = () => {
           <SubInfo>
             <LeftInfo>Writer: {postInfo.writer_id}</LeftInfo>
             <RightInfo>
-              Created Date: {new Date(postInfo.created_date).toISOString()}
+              Created Date: {new Date(postInfo.created_date).toLocaleString()}
             </RightInfo>
           </SubInfo>
           <Content readOnly value={postInfo.content} />
