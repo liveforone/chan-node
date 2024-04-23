@@ -61,7 +61,7 @@ const Home = () => {
       <Subtitle>부제</Subtitle>
       <Description>상세 설명</Description>
       <VerticalContainer>
-        <StyledLink to="/api">
+        <StyledLink to="/users/profile">
           <ProfileIcon /> 나의 프로필
         </StyledLink>
         <StyledLink to="/api">
