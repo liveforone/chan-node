@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { UsersApi } from '../api/users.api';
+import { UsersServerApi } from '../api/users-server.api';
 import { axiosErrorHandle } from '../error/axios.error-handle';
 
 const Signup = () => {
@@ -22,7 +22,7 @@ const Signup = () => {
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await axios
-      .post(UsersApi.SIGNUP, userInput)
+      .post(UsersServerApi.SIGNUP, userInput)
       .then((response) => {
         alert(response.data);
         setIsSubmitted(true);

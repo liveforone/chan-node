@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { AuthConstant } from '../auth/constant/auth.constant';
-import { UsersApi } from '../api/users.api';
+import { UsersServerApi } from '../api/users-server.api';
 import { TokenInfo } from '../users/dto/token-info.dto';
 import { getRefreshToken, getUserId } from '../auth/get-auth';
+import { UsersClientApi } from '../api/users-client.api';
 
 function extractUrlInError(error: any) {
   return error.config.url.replace(/^https?:\/\/localhost:8080/g, '');
 }
-
-const baseFEUrl = 'http://localhost:3000';
 
 export async function axiosErrorHandle(error: any) {
   if (axios.isAxiosError(error)) {
@@ -17,7 +16,7 @@ export async function axiosErrorHandle(error: any) {
       const userId = getUserId();
       await axios
         .post<TokenInfo>(
-          UsersApi.REISSUE,
+          UsersServerApi.REISSUE,
           {},
           {
             headers: { id: userId, 'refresh-token': foundRefreshToken },
@@ -32,10 +31,11 @@ export async function axiosErrorHandle(error: any) {
         .catch(() => {
           console.log('Refresh Token 만료');
           alert('토큰이 만료되었습니다. 재로그인 해주세요');
-          window.location.replace(UsersApi.BASE_URL + '/login');
+          window.location.replace(UsersClientApi.LOGIN);
         });
     } else {
       alert(error.response?.data.message);
+      const baseFEUrl = 'http://localhost:3000';
       const errorUrl = extractUrlInError(error);
       window.location.replace(baseFEUrl + errorUrl);
     }
