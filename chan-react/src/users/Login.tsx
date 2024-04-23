@@ -4,8 +4,8 @@ import { AuthConstant } from '../auth/constant/auth.constant';
 import { TokenInfo } from './dto/token-info.dto';
 import { UsersServerApi } from '../api/users-server.api';
 import { axiosErrorHandle } from '../error/axios.error-handle';
-import { setUserAuth } from '../auth/set-auth';
 import { UsersClientApi } from '../api/users-client.api';
+import { isTokenExistInLocalstorage } from '../auth/check-token';
 
 const Login = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -46,8 +46,7 @@ const Login = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const isAuthenticated = await setUserAuth();
-      if (isAuthenticated) {
+      if (isTokenExistInLocalstorage()) {
         window.location.replace(UsersClientApi.PROFILE);
       }
     };
