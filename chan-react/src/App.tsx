@@ -3,6 +3,11 @@ import { Link, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 import Home from './Home';
 import Signup from './users/Signup';
+import Login from './users/Login';
+import Logout from './users/Logout';
+import Profile from './users/Profile';
+import Withdraw from './users/Withdraw';
+import UpdatePassword from './users/UpdatePassword';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -101,12 +106,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/users/signup" element={<Signup />} />
-          {/* 
           <Route path="/users/login" element={<Login />} />
           <Route path="/users/logout" element={<Logout />} />
           <Route path="/users/profile" element={<Profile />} />
           <Route path="/users/withdraw" element={<Withdraw />} />
           <Route path="/users/update/password" element={<UpdatePassword />} />
+          {/* 
           <Route path="/posts" element={<PostHome />} />
           <Route path="/posts/create" element={<CreatePost />} />
           <Route path="/posts" element={<PostDetail />}>
