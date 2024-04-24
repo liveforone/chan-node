@@ -64,7 +64,7 @@ const Home = () => {
         <StyledLink to="/users/profile">
           <ProfileIcon /> 나의 프로필
         </StyledLink>
-        <StyledLink to="/api">
+        <StyledLink to="/posts">
           <PostIcon /> 게시글
         </StyledLink>
       </VerticalContainer>
