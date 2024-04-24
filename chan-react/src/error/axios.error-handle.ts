@@ -4,8 +4,9 @@ import { UsersServerApi } from '../api/users-server.api';
 import { TokenInfo } from '../users/dto/token-info.dto';
 import { getRefreshToken, getUserId } from '../auth/get-auth';
 import { UsersClientApi } from '../api/users-client.api';
+import { PostClientApi } from '../api/post-client.api';
 
-function extractUrlInError(error: any) {
+function extractUrl(error: any) {
   return error.config.url.replace(/^https?:\/\/localhost:8080/g, '');
 }
 
@@ -27,6 +28,8 @@ export async function axiosErrorHandle(error: any) {
           const refreshToken = response.data.refreshToken;
           localStorage.setItem(AuthConstant.ACCESS_TOKEN, accessToken);
           localStorage.setItem(AuthConstant.REFRESH_TOKEN, refreshToken);
+          const currentUrl = window.location.href;
+          window.location.replace(currentUrl);
         })
         .catch(() => {
           console.log('Refresh Token 만료');
@@ -35,9 +38,8 @@ export async function axiosErrorHandle(error: any) {
         });
     } else {
       alert(error.response?.data.message);
-      const baseFEUrl = 'http://localhost:3000';
-      const errorUrl = extractUrlInError(error);
-      window.location.replace(baseFEUrl + errorUrl);
+      const errorUrl = extractUrl(error);
+      window.location.replace(PostClientApi.BASE + errorUrl);
     }
   }
 }
