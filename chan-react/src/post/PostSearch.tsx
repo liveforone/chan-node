@@ -1,12 +1,11 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { FaPlus, FaSearch } from 'react-icons/fa';
 import { PostPageDto } from './dto/post-page.dto';
 import { PostServerApi } from '../api/post-server.api';
 import { createAuthHeader } from '../api/util/create-auth-header';
 import { axiosErrorHandle } from '../error/axios.error-handle';
-import { PostClientApi } from '../api/post-client.api';
 
 const Container = styled.div`
   display: flex;
@@ -68,7 +67,6 @@ const CreatePostButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
 
   &:hover {
     background-color: #218838;
@@ -80,55 +78,69 @@ const IconWrapper = styled.span`
   vertical-align: middle;
 `;
 
-const SearchIcon = styled.div`
-  color: #666;
-  font-size: 24px;
-  cursor: pointer;
-  position: fixed;
-  left: 50px;
-  bottom: 68px;
+const SearchBar = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  background-color: #f3f3f3;
+  border-radius: 20px;
+  padding: 5px 10px;
 `;
 
-const PostHome = () => {
+const SearchInput = styled.input`
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  padding: 5px;
+`;
+
+const SearchIcon = styled.div`
+  margin-right: 5px;
+  color: #666;
+`;
+
+const PostSearch = () => {
   const [postList, setPostList] = useState<PostPageDto>({
     postSummaries: [],
     metadata: { lastId: BigInt(0) },
   });
-  const [lastId, setLastId] = useState<bigint>(BigInt(0));
+  //   const [postList, setPostList] = useState<PostPageDto>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const getPostPage = async (lastId: bigint = BigInt(0)) => {
+  const getSearchPostPage = async (
+    lastId: bigint = BigInt(0),
+    query: string,
+  ) => {
     await axios
-      .get<PostPageDto>(PostServerApi.HOME, {
-        params: { lastId: lastId },
+      .get<PostPageDto>(PostServerApi.SEARCH, {
+        params: { keyword: query, lastId: lastId },
         headers: createAuthHeader(),
       })
       .then((response) => {
         const newData = response.data;
-        const filteredNewData = newData.postSummaries.filter((newPost) =>
-          postList
-            ? !postList.postSummaries.some(
-                (oldPost) => oldPost.id === newPost.id,
-              )
-            : true,
-        );
-        setPostList(
-          postList
-            ? {
-                ...postList,
-                postSummaries: [...postList.postSummaries, ...filteredNewData],
-              }
-            : newData,
-        );
-        setLastId(response.data.metadata.lastId);
+        if (lastId === BigInt(0)) {
+          // If lastId is 0, it means it's a new search, so set the new data directly
+          setPostList(newData);
+        } else {
+          // If lastId is not 0, it means it's a load more action, so append the new data
+          setPostList((prevData) => ({
+            ...prevData,
+            postSummaries: [
+              ...prevData?.postSummaries,
+              //   ...prevData?.postSummaries,
+              ...newData.postSummaries,
+            ],
+            metadata: newData.metadata,
+          }));
+        }
       })
       .catch((error: any) => {
         axiosErrorHandle(error);
       });
   };
-
-  useEffect(() => {
-    getPostPage();
-  }, []);
 
   const handlePostClick = (id: bigint) => {
     window.location.href = `/posts/${id}`;
@@ -139,16 +151,33 @@ const PostHome = () => {
   };
 
   const handleLoadMore = async () => {
-    getPostPage(lastId);
+    getSearchPostPage(postList?.metadata.lastId, searchQuery);
   };
 
-  const handleSearch = () => {
-    window.location.href = PostClientApi.SEARCH;
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearch = async () => {
+    setPostList({ postSummaries: [], metadata: { lastId: BigInt(0) } });
+    await getSearchPostPage(BigInt(0), searchQuery);
   };
 
   return (
     <Container>
-      {postList.postSummaries.length === 0 && <div>게시글이 없습니다.</div>}
+      <SearchBar>
+        <SearchIcon>
+          <FaSearch />
+        </SearchIcon>
+        <SearchInput
+          type="text"
+          placeholder="검색어를 입력하세요"
+          onChange={handleSearchInputChange}
+          value={searchQuery}
+        />
+        <button onClick={handleSearch}>검색</button>
+      </SearchBar>
+      {postList.postSummaries.length === 0 && <div>검색 결과가 없습니다.</div>}
       {postList.postSummaries.length > 0 &&
         postList.postSummaries.map((data) => (
           <PostCard key={data.id} onClick={() => handlePostClick(data.id)}>
@@ -159,7 +188,7 @@ const PostHome = () => {
             </PostDetails>
           </PostCard>
         ))}
-      {lastId > BigInt(0) && (
+      {postList && postList.metadata.lastId > BigInt(0) && (
         <LoadMoreButton onClick={handleLoadMore}>Load More</LoadMoreButton>
       )}
       <CreatePostButton onClick={handlePostCreate}>
@@ -167,11 +196,8 @@ const PostHome = () => {
           <FaPlus />
         </IconWrapper>
       </CreatePostButton>
-      <SearchIcon onClick={handleSearch}>
-        <FaSearch />
-      </SearchIcon>
     </Container>
   );
 };
 
-export default PostHome;
+export default PostSearch;

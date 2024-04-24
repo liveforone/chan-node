@@ -52,7 +52,10 @@ const LoadMoreButton = styled.button`
 `;
 
 const PostBelongWriter = () => {
-  const [postList, setPostList] = useState<PostPageDto | null>(null);
+  const [postList, setPostList] = useState<PostPageDto>({
+    postSummaries: [],
+    metadata: { lastId: BigInt(0) },
+  });
   const [lastId, setLastId] = useState<bigint>(BigInt(0));
 
   const getPostPage = async (lastId: bigint = BigInt(0)) => {
@@ -99,7 +102,8 @@ const PostBelongWriter = () => {
 
   return (
     <Container>
-      {postList &&
+      {postList.postSummaries.length === 0 && <div>게시글이 없습니다.</div>}
+      {postList.postSummaries.length > 0 &&
         postList.postSummaries.map((data) => (
           <PostCard key={data.id} onClick={() => handlePostClick(data.id)}>
             <PostTitle>{data.title}</PostTitle>
