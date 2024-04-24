@@ -34,6 +34,8 @@ export async function axiosErrorHandle(error: any) {
         .catch(() => {
           console.log('Refresh Token 만료');
           alert('토큰이 만료되었습니다. 재로그인 해주세요');
+          localStorage.removeItem(AuthConstant.ACCESS_TOKEN);
+          localStorage.removeItem(AuthConstant.REFRESH_TOKEN);
           window.location.replace(UsersClientApi.LOGIN);
         });
     } else {
