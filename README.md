@@ -8,3 +8,4 @@
 - `cd front/back`
 - `npm install`
 - `package.json`의 name, version, description을 변경한다.
+- 이후 각 readme를 확인한다.
