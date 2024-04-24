@@ -8,6 +8,12 @@ import Logout from './users/Logout';
 import Profile from './users/Profile';
 import Withdraw from './users/Withdraw';
 import UpdatePassword from './users/UpdatePassword';
+import CreatePost from './post/CreatePost';
+import PostHome from './post/PostHome';
+import PostDetail from './post/PostDetail';
+import PostBelongWriter from './post/PostBelongWriter';
+import PostSearch from './post/PostSearch';
+import UpdatePost from './post/UpdatePost';
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -111,22 +117,15 @@ function App() {
           <Route path="/users/profile" element={<Profile />} />
           <Route path="/users/withdraw" element={<Withdraw />} />
           <Route path="/users/update/password" element={<UpdatePassword />} />
-          {/* 
           <Route path="/posts" element={<PostHome />} />
           <Route path="/posts/create" element={<CreatePost />} />
-          <Route path="/posts" element={<PostDetail />}>
-            <Route path=":id" element={<PostDetail />} />
-          </Route>
-          <Route path="/posts/update" element={<UpdatePost />}>
-            <Route path=":id" element={<UpdatePost />} />
-          </Route>
-          <Route path="/posts/search" element={<PostSearch />}></Route>
-          <Route path="/posts/belong-writer" element={<PostBelongWriter />}>
-            <Route path=":writerId" element={<PostBelongWriter />} />
-          </Route>
-          <Route path="/reply/belong-post" element={<ReplyBelongPost />}>
-            <Route path=":postId" element={<ReplyBelongPost />} />
-          </Route> */}
+          <Route path="/posts/:id" element={<PostDetail />} />
+          <Route
+            path="/posts/belong-writer/:writerId"
+            element={<PostBelongWriter />}
+          />
+          <Route path="/posts/search" element={<PostSearch />} />
+          <Route path="/posts/update/:id" element={<UpdatePost />} />
         </Routes>
       </div>
     </Container>
