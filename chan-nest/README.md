@@ -9,6 +9,7 @@
   - [docker command](#docker-command)
   - [복합키](#복합키)
   - [n + 1 문제 해결](#n--1-문제-해결)
+  - [dto의 구조](#dto의-구조)
   - [prisma omit](#prisma-omit)
   - [프로젝트 유지보수](#프로젝트-유지보수)
 
@@ -70,6 +71,12 @@ const posts: Post[] = await prisma.user
   .findUniuqe({ where: { id: '1' } })
   .post(); //post는 users 스키마에 정의된 연관관계 post 이름
 ```
+
+## dto의 구조
+
+- dto의 구조를 고를 때 class, type, interface 중 고민하게 될 것이다.
+- type과 interface는 런타임시 제거된다. 따라서 request dto로는 적합하지 않다.
+- 그리고 request dto와 response dto의 구조가 통일되지 않는 것은 좋지 않으므로 class로 dto의 구조를 통일하는 것이 적절하다.
 
 ## prisma omit
 
