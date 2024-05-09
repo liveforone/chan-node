@@ -76,7 +76,7 @@ export class PostService {
     const lastIdCondition = ltLastIdCondition(lastId);
     const posts: PostSummary[] = await this.prisma.post.findMany({
       where: lastIdCondition,
-      select: { id: true, title: true, writer_id: true, created_date: true },
+      omit: { content: true, post_state: true },
       orderBy: { id: 'desc' },
       take: PostQueryConstant.PAGE_SIZE,
     });
@@ -96,7 +96,7 @@ export class PostService {
       where: {
         AND: [{ writer_id: writerId }, lastIdCondition],
       },
-      select: { id: true, title: true, writer_id: true, created_date: true },
+      omit: { content: true, post_state: true },
       orderBy: { id: 'desc' },
       take: PostQueryConstant.PAGE_SIZE,
     });
@@ -114,7 +114,7 @@ export class PostService {
     const lastIdCondition = ltLastIdCondition(lastId);
     const posts: PostSummary[] = await this.prisma.post.findMany({
       where: { AND: [{ title: { startsWith: title } }, lastIdCondition] },
-      select: { id: true, title: true, writer_id: true, created_date: true },
+      omit: { content: true, post_state: true },
       orderBy: { id: 'desc' },
       take: PostQueryConstant.PAGE_SIZE,
     });

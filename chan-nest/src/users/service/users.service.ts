@@ -111,4 +111,26 @@ export class UsersService {
       REDIS_GLOBAL_TTL,
     );
   }
+
+  async getOneDtoByIdOmitExample(id: string): Promise<UsersInfo> {
+    const userInfoKey = UsersCacheKey.USER_INFO + id;
+
+    const findUsersInfoById = async () => {
+      return await this.prisma.users
+        .findUnique({
+          omit: { password: true },
+          where: { id: id },
+        })
+        .then(async (userInfo) => {
+          validateFoundData(userInfo);
+          return userInfo;
+        });
+    };
+
+    return await this.redisService.getValueFromRedisOrDB<UsersInfo>(
+      userInfoKey,
+      findUsersInfoById,
+      REDIS_GLOBAL_TTL,
+    );
+  }
 }
