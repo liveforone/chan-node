@@ -75,3 +75,7 @@ const posts: Post[] = await prisma.user
 - `npx npm-check-updates -u -f "/nestjs*/"`
 - `npm i typescript@<version>`
 - `npm i reflect-metadata@<version>`
+- `npm i prisma@latest`
+- `npm i @prisma/client@latest`
+- `npm i pg@latest`
+- dev-dependencies는 건들지 않는게 좋다. 문제가 발생할경우 [nestjs의 package.json](https://github.com/nestjs/nest/blob/master/package.json)에 검색하여 적절한 버전을 파악하고, 해당 특정 버전으로 업데이트를 진행하라
