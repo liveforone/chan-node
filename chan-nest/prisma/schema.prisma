@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]  //preview로 omit api를 사용한다.
 }
 
 datasource db {
