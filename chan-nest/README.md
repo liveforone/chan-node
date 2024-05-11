@@ -2,10 +2,11 @@
 
 - [chan nest - backend boilerplate](#chan-nest---backend-boilerplate)
   - [문서](#문서)
-  - [file setting](#file-setting)
+  - [project initializing](#project-initializing)
     - [.env 수정](#env-수정)
     - [ecosystem.config.js 수정](#ecosystemconfigjs-수정)
     - [users 도메인 수정](#users-도메인-수정)
+    - [prisma initializing](#prisma-initializing)
   - [docker command](#docker-command)
   - [복합키](#복합키)
   - [n + 1 문제 해결](#n--1-문제-해결)
@@ -19,7 +20,7 @@
 - [response dto 주의사항](./documents/RESPONSE_DTO_CAUTION.md)
 - [효율적으로 response dto 사용하기](./documents/EFFECTIVE_RESPONSE_DTO.md)
 
-## file setting
+## project initializing
 
 ### .env 수정
 
@@ -34,6 +35,12 @@
 
 - redis cache key
 - users.constant의 admin_email 수정
+
+### prisma initializing
+
+- `npx prisma generate`
+- `npx prisma migrate deploy`
+- `npx prisma db push`
 
 ## docker command
 
