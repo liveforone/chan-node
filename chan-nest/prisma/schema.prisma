@@ -8,30 +8,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model users {
   id String @id @default(uuid())
   username String @unique
   password String
-  role Role @default(MEMBER)
-  post Post[]
+  role role @default(MEMBER)
+  post post[]
 }
 
-enum Role {
+enum role {
   MEMBER
   ADMIN
 }
 
-model Post {
+model post {
   id BigInt @default(autoincrement()) @id
   title String
   content String
-  post_state PostState @default(ORIGINAL)
+  post_state post_state @default(ORIGINAL)
   writer_id String
   created_date DateTime @default(now()) @db.Timestamptz(6)
-  writer Users @relation(fields: [writer_id], references: [id], onDelete: Cascade)
+  writer users @relation(fields: [writer_id], references: [id], onDelete: Cascade)
 }
 
-enum PostState {
+enum post_state {
   ORIGINAL
   EDITED
 }
