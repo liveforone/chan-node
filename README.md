@@ -9,3 +9,10 @@
 - `npm install`
 - `package.json`의 name, version, description을 변경한다.
 - 이후 각 readme를 확인한다.
+
+## convention
+
+- directory name은 소문자 시작 카멜케이스로 한다.
+- file name은 대문자 시작 카멜케이스로한다.
+- controller 관련 상수의 경우 param constant와 url constant으로 분류하되, XxControllerConstant라는 하나의 파일안에 기술한다.
+- `schema.prisma`에 기술하는 모든 model, 필드 및 enum 등의 네이밍은 소문자기반 snake case를 사용한다.
