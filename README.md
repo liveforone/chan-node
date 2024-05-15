@@ -16,3 +16,5 @@
 - file name은 대문자 시작 카멜케이스로한다.
 - controller 관련 상수의 경우 param constant와 url constant으로 분류하되, XxControllerConstant라는 하나의 파일안에 기술한다.
 - `schema.prisma`에 기술하는 모든 model, 필드 및 enum 등의 네이밍은 소문자기반 snake case를 사용한다.
+- prisma 암시적 변수 사용
+- 업데이트 필드가 항상 관계있고, 독립적이지 않다면 통합하여 업데이트 처리, 만약 모든 필드라면 put 매핑으로 처리
