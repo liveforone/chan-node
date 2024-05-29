@@ -9,7 +9,7 @@ export class RedisService {
     private redis: RedisClientType,
   ) {}
 
-  async getValueFromRedisOrDB<T>(
+  async getOrLoad<T>(
     cacheKey: string,
     findDataFromDB: () => Promise<T>,
     expiredTTL: number,

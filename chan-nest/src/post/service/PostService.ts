@@ -65,7 +65,7 @@ export class PostService {
         });
     };
 
-    return await this.redisService.getValueFromRedisOrDB<PostInfoDto>(
+    return await this.redisService.getOrLoad<PostInfoDto>(
       postDetailKey,
       findPostInfoById,
       REDIS_GLOBAL_TTL,

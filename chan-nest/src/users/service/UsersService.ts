@@ -105,7 +105,7 @@ export class UsersService {
         });
     };
 
-    return await this.redisService.getValueFromRedisOrDB<UsersInfoDto>(
+    return await this.redisService.getOrLoad<UsersInfoDto>(
       userInfoKey,
       findUsersInfoById,
       REDIS_GLOBAL_TTL,
