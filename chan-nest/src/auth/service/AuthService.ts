@@ -1,16 +1,16 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { EnvPath } from '../../config/EnvPath';
+import { EnvPath } from '../../global/constant/EnvPath';
 import { UsersService } from '../../users/service/UsersService';
 import { LoginDto } from '../dto/request/LoginDto';
-import { AuthExcMsg } from 'src/exceptionHandle/exceptionMessage/AuthExcMsg';
+import { AuthExcMsg } from 'src/global/exception/exceptionMessage/AuthExcMsg';
 import { AuthServiceLog } from './log/AuthServiceLog';
 import { TokenInfoDto } from '../dto/response/TokenInfoDto';
 import { validateUserPassword } from 'src/users/validator/UsersValidator';
-import { REDIS_REFRESH_TOKEN_TTL } from 'src/redis/constant/RedisConstant';
-import { UsersCacheKey } from 'src/redis/key/UsersKey';
+import { REDIS_REFRESH_TOKEN_TTL } from 'src/global/redis/constant/RedisConstant';
+import { UsersCacheKey } from 'src/global/redis/key/UsersKey';
 import { JwtService } from '@nestjs/jwt';
-import { RedisService } from 'src/redis/service/RedisService';
+import { RedisService } from 'src/global/redis/service/RedisService';
 
 @Injectable()
 export class AuthService {

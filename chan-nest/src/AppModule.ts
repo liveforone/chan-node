@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from './prisma/PrismaModule';
-import { RedisModule } from './redis/RedisModule';
-import { ExceptionHandleModule } from './exceptionHandle/ExceptionHandleModule';
+import { PrismaModule } from './global/prisma/PrismaModule';
+import { RedisModule } from './global/redis/RedisModule';
+import { ExceptionHandleModule } from './global/exception/ExceptionHandleModule';
 import { AuthModule } from './auth/AuthModule';
 import { UsersModule } from './users/UsersModule';
 import { APP_GUARD } from '@nestjs/core';
@@ -22,7 +22,6 @@ import { PostModule } from './post/PostModule';
     UsersModule,
     PostModule,
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_GUARD,

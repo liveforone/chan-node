@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PostService } from '../post/service/PostService';
 import { UsersService } from 'src/users/service/UsersService';
-import { PrismaService } from 'src/prisma/PrismaService';
+import { PrismaService } from 'src/global/prisma/PrismaService';
 import { SignupDto } from 'src/users/dto/request/SignupDto';
 import { CreatePostDto } from '../post/dto/request/CreatePostDto';
 import { UpdatePostDto } from '../post/dto/request/UpdatePostDto';
 import { $Enums, Prisma } from '@prisma/client';
 import { RemovePostDto } from '../post/dto/request/RemovePostDto';
 import { HttpException } from '@nestjs/common';
-import { RedisModule } from 'src/redis/RedisModule';
+import { RedisModule } from 'src/global/redis/RedisModule';
 
 describe('PostService Real DB Test', () => {
   let service: PostService;

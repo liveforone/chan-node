@@ -5,12 +5,12 @@ import { WithdrawDto } from '../dto/request/WithdrawDto';
 import { UsersServiceLog } from './log/UsersServiceLog';
 import { encodePassword } from 'src/auth/util/PasswordUtil';
 import { validateUserPassword } from '../validator/UsersValidator';
-import { UsersCacheKey } from 'src/redis/key/UsersKey';
-import { REDIS_GLOBAL_TTL } from 'src/redis/constant/RedisConstant';
-import { PrismaService } from 'src/prisma/PrismaService';
-import { validateFoundData } from 'src/common/FoundDataUtil';
+import { UsersCacheKey } from 'src/global/redis/key/UsersKey';
+import { REDIS_GLOBAL_TTL } from 'src/global/redis/constant/RedisConstant';
+import { PrismaService } from 'src/global/prisma/PrismaService';
+import { validateFoundData } from 'src/global/util/FoundDataUtil';
 import { UsersInfoDto } from '../dto/response/UsersInfo';
-import { RedisService } from 'src/redis/service/RedisService';
+import { RedisService } from 'src/global/redis/service/RedisService';
 import { Users } from '../entities/Users';
 import { users } from '@prisma/client';
 

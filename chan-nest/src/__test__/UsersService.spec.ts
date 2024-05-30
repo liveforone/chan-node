@@ -5,10 +5,10 @@ import { UpdatePwDto } from '../users/dto/request/UpdatePwDto';
 import { isMatchPassword } from '../auth/util/PasswordUtil';
 import { WithdrawDto } from '../users/dto/request/WithdrawDto';
 import { describe } from 'node:test';
-import { PrismaService } from '../prisma/PrismaService';
+import { PrismaService } from '../global/prisma/PrismaService';
 import { HttpException } from '@nestjs/common';
-import { RedisModule } from 'src/redis/RedisModule';
-import { UsersException } from 'src/exceptionHandle/customException/UsersException';
+import { UsersException } from 'src/global/exception/customException/UsersException';
+import { RedisModule } from 'src/global/redis/RedisModule';
 
 describe('UsersService Command Method Real DB Test', () => {
   let service: UsersService;

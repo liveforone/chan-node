@@ -1,5 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
-import { UsersException } from '../customException/UsersException';
+import { UsersException } from '../../global/exception/customException/UsersException';
 import { Request, Response } from 'express';
 
 @Catch(UsersException)

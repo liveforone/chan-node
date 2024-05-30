@@ -4,17 +4,17 @@ import { Post } from '../entities/Post';
 import { UpdatePostDto } from '../dto/request/UpdatePostDto';
 import { RemovePostDto } from '../dto/request/RemovePostDto';
 import { PostServiceLog } from './log/PostServiceLog';
-import { PostCacheKey } from 'src/redis/key/PostKey';
-import { REDIS_GLOBAL_TTL } from 'src/redis/constant/RedisConstant';
-import { PrismaService } from 'src/prisma/PrismaService';
+import { PostCacheKey } from 'src/global/redis/key/PostKey';
+import { REDIS_GLOBAL_TTL } from 'src/global/redis/constant/RedisConstant';
+import { PrismaService } from 'src/global/prisma/PrismaService';
 import { $Enums } from '@prisma/client';
-import { validateFoundData } from 'src/common/FoundDataUtil';
+import { validateFoundData } from 'src/global/util/FoundDataUtil';
 import { findLastIdOrDefault, ltLastIdCondition } from 'prisma-no-offset';
 import { PostSummaryDto } from '../dto/response/PostSummaryDto';
 import { PostQueryConstant } from './constant/PostQueryConstant';
 import { PostInfoDto } from '../dto/response/PostInfoDto';
 import { PostPageDto } from '../dto/response/PostPageDto';
-import { RedisService } from 'src/redis/service/RedisService';
+import { RedisService } from 'src/global/redis/service/RedisService';
 
 @Injectable()
 export class PostService {
