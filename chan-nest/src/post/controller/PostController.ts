@@ -21,13 +21,13 @@ export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Get()
-  async getAllPostsPage(@Query(LAST_ID) lastId?: bigint) {
+  async allPosts(@Query(LAST_ID) lastId?: bigint) {
     return this.postService.getAllPosts(lastId);
   }
 
-  @Get(PostUrl.BELONG_WRITER)
-  async getBelongWriterPage(
-    @Param(PostParam.WRITER_ID) writerId: string,
+  @Get()
+  async postOfMember(
+    @Query(PostParam.WRITER_ID) writerId: string,
     @Query(LAST_ID) lastId?: bigint,
   ) {
     return await this.postService.getPostsByWriterId(writerId, lastId);

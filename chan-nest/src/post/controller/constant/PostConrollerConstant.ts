@@ -1,6 +1,5 @@
 export const PostUrl = {
   ROOT: 'posts',
-  BELONG_WRITER: 'belong-writer/:writerId',
   SEARCH_POSTS: 'search',
   DETAIL: ':id',
   UPDATE: ':id',
@@ -9,6 +8,6 @@ export const PostUrl = {
 
 export const PostParam = {
   KEYWORD: 'keyword',
-  WRITER_ID: 'writerId',
+  WRITER_ID: 'writer-id',
   ID: 'id',
 } as const;
