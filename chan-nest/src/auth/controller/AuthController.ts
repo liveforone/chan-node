@@ -4,6 +4,7 @@ import { AuthService } from '../service/AuthService';
 import { Public } from '../decorator/PublicDecorator';
 import { LoginDto } from '../dto/request/LoginDto';
 import { AuthResponse } from './response/AuthResponse';
+import { User } from '../decorator/UserDecorator';
 
 @Controller(AuthUrl.ROOT)
 export class AuthController {
@@ -16,9 +17,6 @@ export class AuthController {
     return tokenInfo;
   }
 
-  /*
-  id를 any로 받은 이유는 { "id": "value" } 형태로 입력받기 위함이다.
-  */
   @Public()
   @Post(AuthUrl.REISSUE)
   async reissueJwtToken(@Request() req) {
@@ -30,8 +28,8 @@ export class AuthController {
   }
 
   @Post(AuthUrl.LOGOUT)
-  async logout(@Request() req) {
-    await this.authService.logout(req.user.userId);
+  async logout(@User() user: any) {
+    await this.authService.logout(user.sub);
     return AuthResponse.LOGOUT_SUCCESS;
   }
 }

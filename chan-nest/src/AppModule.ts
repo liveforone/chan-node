@@ -6,8 +6,8 @@ import { ExceptionHandleModule } from './global/exception/ExceptionHandleModule'
 import { AuthModule } from './auth/AuthModule';
 import { UsersModule } from './users/UsersModule';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtGuard } from './auth/guard/JwtGuard';
 import { PostModule } from './post/PostModule';
+import { AuthGuard } from './auth/guard/AuthGuard';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { PostModule } from './post/PostModule';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtGuard,
+      useClass: AuthGuard,
     },
   ],
 })
