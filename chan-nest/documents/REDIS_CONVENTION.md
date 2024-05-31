@@ -67,7 +67,7 @@ return isExistInRedis(cachedData)
 
 ```typescript
 //구현
-async getValueFromRedisOrDB<T>(
+async getOrLoad<T>(
     cacheKey: string,
     findDataFromDB: () => Promise<T>,
     expiredTTL: number,
@@ -86,11 +86,11 @@ async getValueFromRedisOrDB<T>(
 
 // 사용
 async getPostById(id: bigint): Promise<PostInfo> {
-    const postDetailKey = PostCacheKey.DETAIL + id;
+  const postDetailKey = PostCacheKey.DETAIL + id;
 
-    //prisma 데이터 조회 익명함수
-    const findPostInfoById = async () => {
-      return await this.prisma.post
+  //prisma 데이터 조회 익명함수
+  const findPostInfoById = async () => {
+    return await this.prisma.post
         .findUnique({
           where: { id: id },
         })
@@ -98,14 +98,14 @@ async getPostById(id: bigint): Promise<PostInfo> {
           validateFoundData(postInfo);
           return postInfo;
         });
-    };
+  };
 
-    return await this.redisService.getValueFromRedisOrDB<PostInfo>(
-      postDetailKey,
-      findPostInfoById,
-      REDIS_GLOBAL_TTL,
-    );
-  }
+  return await this.redisService.getValueFromRedisOrDB<PostInfo>(
+    postDetailKey,
+    findPostInfoById,
+    REDIS_GLOBAL_TTL,
+  );
+}
 ```
 
 - 앞으로는 위와 같이 리턴할 타입을 제네릭으로 주고,
