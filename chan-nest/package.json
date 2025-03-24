@@ -33,7 +33,7 @@
     "class-validator": "^0.14.1",
     "pg": "^8.14.1",
     "prisma": "^6.5.0",
-    "prisma-common-error-handle": "^2.2.0",
+    "prisma-common-error-handle": "^2.2.1",
     "prisma-no-offset": "^1.1.5",
     "redis": "^4.6.13",
     "reflect-metadata": "^0.2.2",
