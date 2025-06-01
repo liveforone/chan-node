@@ -1,37 +1,9 @@
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["omitApi"]  //preview로 omit api를 사용한다.
+  previewFeatures = []
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model users {
-  id String @id @default(uuid())
-  username String @unique
-  password String
-  role role @default(MEMBER)
-  post post[]
-}
-
-enum role {
-  MEMBER
-  ADMIN
-}
-
-model post {
-  id BigInt @default(autoincrement()) @id
-  title String
-  content String
-  post_state post_state @default(ORIGINAL)
-  writer_id String
-  created_date DateTime @default(now()) @db.Timestamptz(6)
-  writer users @relation(fields: [writer_id], references: [id], onDelete: Cascade)
-}
-
-enum post_state {
-  ORIGINAL
-  EDITED
 }

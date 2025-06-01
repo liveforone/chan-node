@@ -1,0 +1,14 @@
+model post {
+  id BigInt @default(autoincrement()) @id
+  title String
+  content String
+  post_state post_state @default(ORIGINAL)
+  writer_id String
+  created_date DateTime @default(now()) @db.Timestamptz(6)
+  writer users @relation(fields: [writer_id], references: [id], onDelete: Cascade)
+}
+
+enum post_state {
+  ORIGINAL
+  EDITED
+}

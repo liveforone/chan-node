@@ -1,0 +1,12 @@
+model users {
+  id String @id @default(uuid())
+  username String @unique
+  password String
+  role role @default(MEMBER)
+  post post[]
+}
+
+enum role {
+  MEMBER
+  ADMIN
+}
