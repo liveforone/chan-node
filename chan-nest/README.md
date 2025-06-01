@@ -41,7 +41,7 @@
 ### prisma initializing
 
 - `npx prisma generate`
-- `npx prisma migrate deploy`
+- `npx prisma migrate deploy --schema ./prisma`
 - `npx prisma db push`
 
 ## docker command
@@ -90,8 +90,6 @@ const posts: Post[] = await prisma.user
 ## prisma omit
 
 - prisma 5.13.0 부터 추가된 `omit api`는 기존의 dto projection을 위한 `include`와 달리, 필요없는 필드를 기재하고, 이외의 모든 필드를 가져오는 api이다.
-- schema.prisma의 generator에 `previewFeatures = ["omitApi"]`를 추가한다.
-- 그리고 아래와 같이 사용한다.
 
 ```typescript
 await prisma.user.findMany({
