@@ -118,3 +118,4 @@ await prisma.user.findMany({
 ## 주의사항
 
 - 백엔드가 많이 바뀌었다. 특히 lastId가 lastId에서 last-id로 바뀌는 변화 때문에 프론트의 post 관련 페이지는 대부분 동작하지 않을 것이다.
+- 스프링과 다르게 쿼리스트링을 반드시 삽입해야한다. 이게 없으면 에러가 발생한다. 그러나 express-nestjs만 그렇고 fastify-nestjs는 직접 테스트해봐야한다.
