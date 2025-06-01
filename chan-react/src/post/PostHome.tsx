@@ -99,7 +99,7 @@ const PostHome = () => {
   const getPostPage = async (lastId: bigint = BigInt(0)) => {
     await axios
       .get<PostPageDto>(PostServerApi.HOME, {
-        params: { lastId: lastId },
+        params: { 'last-id': lastId },
         headers: createAuthHeader(),
       })
       .then((response) => {

@@ -116,7 +116,7 @@ const PostSearch = () => {
   ) => {
     await axios
       .get<PostPageDto>(PostServerApi.SEARCH, {
-        params: { keyword: query, lastId: lastId },
+        params: { keyword: query, 'last-id': lastId },
         headers: createAuthHeader(),
       })
       .then((response) => {

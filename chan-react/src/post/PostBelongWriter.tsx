@@ -60,8 +60,8 @@ const PostBelongWriter = () => {
 
   const getPostPage = async (lastId: bigint = BigInt(0)) => {
     await axios
-      .get<PostPageDto>(PostServerApi.BELONG_WRITER + getUserId(), {
-        params: { lastId: lastId },
+      .get<PostPageDto>(PostServerApi.BELONG_WRITER, {
+        params: { 'writer-id': getUserId(), 'last-id': lastId },
         headers: createAuthHeader(),
       })
       .then((response) => {
