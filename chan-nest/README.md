@@ -13,6 +13,7 @@
   - [dto의 구조](#dto의-구조)
   - [prisma omit](#prisma-omit)
   - [프로젝트 유지보수](#프로젝트-유지보수)
+  - [주의사항](#주의사항)
 
 ## 문서
 
@@ -113,3 +114,7 @@ await prisma.user.findMany({
 - `npm i prisma-no-offset@latest`
 - `npm i prisma-common-error-handle@latest`
 - dev-dependencies는 건들지 않는게 좋다. 문제가 발생할경우 [nestjs의 package.json](https://github.com/nestjs/nest/blob/master/package.json)에 검색하여 적절한 버전을 파악하고, 해당 특정 버전으로 업데이트를 진행하라
+
+## 주의사항
+
+- 백엔드가 많이 바뀌었다. 특히 lastId가 lastId에서 last-id로 바뀌는 변화 때문에 프론트의 post 관련 페이지는 대부분 동작하지 않을 것이다.
