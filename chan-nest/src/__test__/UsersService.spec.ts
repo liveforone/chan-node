@@ -143,7 +143,7 @@ describe('UsersService Command Method Real DB Test', () => {
       const id = (await service.getOneByUsername(username)).id;
       expect(async () => {
         await service.withdraw(withdrawRequest, id);
-      }).rejects.toThrow(HttpException);
+      }).rejects.toThrow(UsersException);
     });
   });
 });
